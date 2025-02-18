@@ -1,10 +1,10 @@
-import { GamesSimulation, GameState, GlobalMap } from './games-simulation';
+import { CoinFlippinGamesSimulator, GameState, GlobalMap } from './coin-flipping-game-simulator';
 
 describe('GamesSimulation', () => {
-  let simulation: GamesSimulation;
+  let simulation: CoinFlippinGamesSimulator;
 
   beforeEach(() => {
-    simulation = new GamesSimulation(3, 3, 1000, 10);
+    simulation = new CoinFlippinGamesSimulator(3, 3, 1000, 10);
   });
 
   it('should run the simulation and update the global map', async () => {

@@ -1,3 +1,5 @@
+import { IExprerimentStepInput, IExprerimentStepOutput } from "../experiment/experiment";
+
 export interface GameState {
   numberOfSteps: number;
   winA: boolean;
@@ -14,7 +16,7 @@ export interface GlobalMap {
   };
 }
 
-export class GamesSimulation {
+export class CoinFlippinGamesSimulator {
   private isAborted = false;
   private globalMap: GlobalMap = {};
 

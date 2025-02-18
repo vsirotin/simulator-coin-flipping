@@ -1,8 +1,9 @@
+import { LoggerFactory } from "@vsirotin/log4ts";
 
 export interface IExprerimentStepInput {};
 export interface IExprerimentStepOutput {};
 
-export interface IExperimentStep {
+export interface IExperimentStep<IExprerimentStepInput, IExprerimentStepOutput> {
     runExperimentStep(inputParameters: IExprerimentStepInput): IExprerimentStepOutput; 
 }
 
@@ -11,54 +12,58 @@ export interface IExprerimentOutput {};
 export interface IExperimentIntermediateState {};
 
 
-export abstract class Experiment {
-    protected isAborted = false;
+export abstract class Experiment<IExprerimentStepInput, IExprerimentStepOutput, IExprerimentInput, IExprerimentOutput, IExperimentIntermediateState> {
+    
+    private logger = LoggerFactory.getLogger("Experiment");
+    
+    private isAborted = false;
 
-    constructor(private experimentStep: IExperimentStep) {}
+    abstract experimentStep: IExperimentStep<IExprerimentStepInput, IExprerimentStepOutput>;
 
     async runExperiment(
-        experimentInput: IExprerimentInput,
-        progressReportFrequency: number,
-        onProgress: (state: IExperimentIntermediateState) => void): Promise<IExprerimentOutput | null> {
+        experimentInput: IExprerimentInput): Promise<IExprerimentOutput | null> {
+
             this.isAborted = false;
-            let stepInput: IExprerimentStepInput = this.prepareExperiment(experimentInput);
-            let stepsWithoutProgressReport = 0;
-            let experimentOutput: IExprerimentOutput|null = null;
+            let intermediateState: IExperimentIntermediateState = this.prepareExperiment(experimentInput);
+            this.logger.log("Start experiment. intermediateState:", intermediateState);
             let stepNumber = 0;
+            
             while(!this.isAborted){
+                let stepInput: IExprerimentStepInput = this.prepareExperimentStep(intermediateState, stepNumber);
                 let stepOutput: IExprerimentStepOutput = this.experimentStep.runExperimentStep(stepInput);
                 stepNumber++;
-                experimentOutput = this.updateExperimentOutput(experimentOutput, stepOutput, stepNumber);
-                if(stepsWithoutProgressReport++ >= progressReportFrequency){
-                    stepsWithoutProgressReport = 0;
-                    let intermidateStae: IExperimentIntermediateState = this.createIntermidateState(experimentOutput, stepOutput, stepNumber);
-                    onProgress(intermidateStae);
-                }
-                let isCompleted = this.isExperimentCompleted(stepOutput, experimentOutput, stepNumber);
+                intermediateState = this.updateIntermidateState(intermediateState, stepOutput, stepNumber);
+                let isCompleted = this.isExperimentCompleted(stepOutput, intermediateState, stepNumber);
+                this.logger.debug("Step:", stepNumber, "intermediateState:", intermediateState, "isCompleted:", isCompleted);
                 if(isCompleted){
                     break;
                 }
                 await new Promise(resolve => setTimeout(resolve, 0));
             }
-            return experimentOutput;
-    }
+            let result = this.generateOutput(intermediateState, stepNumber); 
+            this.logger.log("End experiment result:", result);
+            return result;   
+        }
+    
   
     stopExperiment(): void{
+        this.logger.log("Stop experiment");
         this.isAborted = true;
     }
 
-    abstract prepareExperiment(input: IExprerimentInput): IExprerimentStepInput
-    abstract updateExperimentOutput(
-        experimentOutput: IExprerimentOutput|null, 
-        stepOutput: IExprerimentStepOutput,
-        stepNumber: number): IExprerimentOutput;
-    abstract createIntermidateState(
-        experimentOutput: IExprerimentOutput, 
+    abstract prepareExperiment(input: IExprerimentInput): IExperimentIntermediateState
+
+    abstract prepareExperimentStep(state: IExperimentIntermediateState, stepNumber: number): IExprerimentStepInput
+    
+    abstract updateIntermidateState(
+        intermediateState: IExperimentIntermediateState|null, 
         stepOutput: IExprerimentStepOutput,
         stepNumber: number): IExperimentIntermediateState;
 
     abstract isExperimentCompleted(
         stepOutput: IExprerimentStepOutput, 
-        experimentOutput: IExprerimentOutput, 
+        intermediateState: IExperimentIntermediateState, 
         stepNumber: number): boolean;
+
+    abstract generateOutput(intermediateState: IExperimentIntermediateState | null, stepNumber: number): IExprerimentOutput
 }    
