@@ -1,16 +1,32 @@
 import { LoggerFactory } from "@vsirotin/log4ts";
-import { IExperimentStep, IExprerimentInput, IExprerimentOutput, IExperimentIntermediateState, Experiment } from "../experiment/experiment";
+import { IExprerimentOutput, Experiment, IExperimentStep } from "../experiment/experiment";
 
 
-export class CoinFlipping implements IExperimentStep<number, boolean> {
+class CoinFlipping implements IExperimentStep {
   generatorUniformDistribution: IGeneratorUniformDistributionBoolean = new GeneratorUniformDistributionBoolean();
-  runExperimentStep(inputParameters: number = 0): boolean {
-    return this.generatorUniformDistribution.generate();
+  betA: number;
+  betB: number;
+  countFlippingA = 0;
+
+  constructor(input: CoinFlippingGameInput) {
+    this.betA = input.betA;
+    this.betB = input.betB;
+  }
+  runExperimentStep(): void {
+    const result = this.generatorUniformDistribution.generate();
+    if(result){
+      this.betA++;
+      this.betB--;
+      this.countFlippingA++;
+      return
+    }
+    this.betA--;
+    this.betB++;
   }
 
 }
 
-export class CoinFlippingGameInput implements IExprerimentInput {
+export class CoinFlippingGameInput {
   constructor(
     public betA: number,
     public betB: number,
@@ -27,52 +43,29 @@ export class CoinFiippingGameOutput implements IExprerimentOutput {
   ) { }
 }
 
-export class CoinFlippinGameIntermediateState implements IExperimentIntermediateState {
-  constructor(
-    public betA: number,
-    public betB: number,
-    public numberFilippingasA: number
-  ) { }
-}
+export class CoinFlippingGame extends Experiment<CoinFiippingGameOutput> {
 
-export class CoinFlippingGame extends Experiment<number, boolean, CoinFlippingGameInput, CoinFiippingGameOutput, CoinFlippinGameIntermediateState> {
 
   private logger1 = LoggerFactory.getLogger("CoinFlippingGame");
 
-  override experimentStep: CoinFlipping = new CoinFlipping();
+  override experimentStep: CoinFlipping;
 
   maxGameLength: number = 0;
 
-  override prepareExperiment(input: CoinFlippingGameInput): CoinFlippinGameIntermediateState {
+  constructor(input: CoinFlippingGameInput) {
+    super(new CoinFlipping(input));
     this.maxGameLength = input.maxGameLength;
-    return new CoinFlippinGameIntermediateState(input.betA, input.betB, 0);
+    this.experimentStep = new CoinFlipping(input);
   }
 
-  override prepareExperimentStep(state: CoinFlippinGameIntermediateState, stepNumber: number): number {
-    //do nothing
-    return 0;
+  override isExperimentCompleted(): boolean {
+    return this.experimentStep.betA === 0 || this.experimentStep.betB === 0 || this.stepNumber >= this.maxGameLength;
   }
-
-  override updateIntermidateState(oldState: CoinFlippinGameIntermediateState, stepOutput: boolean, stepNumber: number): CoinFlippinGameIntermediateState {
-    let difWinA = -1;
-    let difNumberFilippingasA = 0;
-    if (stepOutput) {
-      difWinA = 1;
-      difNumberFilippingasA = 1;
-    }
-
-    let newState = new CoinFlippinGameIntermediateState(oldState.betA + difWinA, oldState.betB - difWinA, oldState.numberFilippingasA + difNumberFilippingasA);
-    this.logger1.debug("Step:", stepNumber, "intermediateState:", oldState, "newState:", newState);
-    return newState;
+  override generateOutput(): CoinFiippingGameOutput {
+    return new CoinFiippingGameOutput(this.experimentStep.betA === 0, 
+      !(this.experimentStep.betA === 0 || this.experimentStep.betB === 0), 
+      this.stepNumber, Math.abs((this.stepNumber / 2.0 - this.experimentStep.countFlippingA) / this.stepNumber / 2.0));
   }
-  override isExperimentCompleted(stepOutput: boolean, intermediateState: CoinFlippinGameIntermediateState, stepNumber: number): boolean {
-    return intermediateState.betA === 0 || intermediateState.betB === 0 || stepNumber >= this.maxGameLength;
-  }
-  override generateOutput(intermediateState: CoinFlippinGameIntermediateState, stepNumber: number): CoinFiippingGameOutput {
-    let relativeDeviation = Math.abs((stepNumber/2.0 - intermediateState.numberFilippingasA) / stepNumber);
-    return new CoinFiippingGameOutput(intermediateState.betA === 0, !(intermediateState.betA === 0 || intermediateState.betB === 0), stepNumber, relativeDeviation);
-  }
-
 }
 
 export interface IGeneratorUniformDistributionBoolean {

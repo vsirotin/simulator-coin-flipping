@@ -1,46 +1,41 @@
 import { LoggerFactory } from "@vsirotin/log4ts";
 
-export interface IExprerimentStepInput {};
-export interface IExprerimentStepOutput {};
 
-export interface IExperimentStep<IExprerimentStepInput, IExprerimentStepOutput> {
-    runExperimentStep(inputParameters: IExprerimentStepInput): IExprerimentStepOutput; 
+
+export interface IExperimentStep {
+    runExperimentStep(): void; 
 }
 
 export interface IExprerimentInput {};
 export interface IExprerimentOutput {};
-export interface IExperimentIntermediateState {};
 
 
-export abstract class Experiment<IExprerimentStepInput, IExprerimentStepOutput, IExprerimentInput, IExprerimentOutput, IExperimentIntermediateState> {
+export abstract class Experiment<IExprerimentOutput> {
     
     private logger = LoggerFactory.getLogger("Experiment");
     
     private isAborted = false;
+    stepNumber = 0;
 
-    abstract experimentStep: IExperimentStep<IExprerimentStepInput, IExprerimentStepOutput>;
+    constructor (protected experimentStep: IExperimentStep){};
 
-    async runExperiment(
-        experimentInput: IExprerimentInput): Promise<IExprerimentOutput | null> {
-
+    async runExperiment(): Promise<IExprerimentOutput | null> {
+            this.logger.log("Start experiment");
             this.isAborted = false;
-            let intermediateState: IExperimentIntermediateState = this.prepareExperiment(experimentInput);
-            this.logger.log("Start experiment. intermediateState:", intermediateState);
-            let stepNumber = 0;
+            this.prepareExperiment();
+            this.stepNumber = 0;
             
             while(!this.isAborted){
-                let stepInput: IExprerimentStepInput = this.prepareExperimentStep(intermediateState, stepNumber);
-                let stepOutput: IExprerimentStepOutput = this.experimentStep.runExperimentStep(stepInput);
-                stepNumber++;
-                intermediateState = this.updateIntermidateState(intermediateState, stepOutput, stepNumber);
-                let isCompleted = this.isExperimentCompleted(stepOutput, intermediateState, stepNumber);
-                this.logger.debug("Step:", stepNumber, "intermediateState:", intermediateState, "isCompleted:", isCompleted);
+                this.experimentStep.runExperimentStep();
+                this.stepNumber++;
+                let isCompleted = this.isExperimentCompleted();
+                this.logger.debug("Step:", this.stepNumber, "isCompleted:", isCompleted);
                 if(isCompleted){
                     break;
                 }
                 await new Promise(resolve => setTimeout(resolve, 0));
             }
-            let result = this.generateOutput(intermediateState, stepNumber); 
+            let result = this.generateOutput(); 
             this.logger.log("End experiment result:", result);
             return result;   
         }
@@ -51,19 +46,9 @@ export abstract class Experiment<IExprerimentStepInput, IExprerimentStepOutput, 
         this.isAborted = true;
     }
 
-    abstract prepareExperiment(input: IExprerimentInput): IExperimentIntermediateState
+    protected prepareExperiment(): void {};
 
-    abstract prepareExperimentStep(state: IExperimentIntermediateState, stepNumber: number): IExprerimentStepInput
-    
-    abstract updateIntermidateState(
-        intermediateState: IExperimentIntermediateState|null, 
-        stepOutput: IExprerimentStepOutput,
-        stepNumber: number): IExperimentIntermediateState;
+    abstract isExperimentCompleted(): boolean;
 
-    abstract isExperimentCompleted(
-        stepOutput: IExprerimentStepOutput, 
-        intermediateState: IExperimentIntermediateState, 
-        stepNumber: number): boolean;
-
-    abstract generateOutput(intermediateState: IExperimentIntermediateState | null, stepNumber: number): IExprerimentOutput
+    abstract generateOutput(): IExprerimentOutput
 }    

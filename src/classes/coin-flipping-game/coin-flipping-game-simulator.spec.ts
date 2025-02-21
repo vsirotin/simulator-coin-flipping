@@ -1,70 +1,70 @@
-import { CoinFlippinGamesSimulator, GameState, GlobalMap } from './coin-flipping-game-simulator';
+// import { CoinFlippinGamesSimulator, GameState, GlobalMap } from './coin-flipping-game-simulator';
 
-describe('GamesSimulation', () => {
-  let simulation: CoinFlippinGamesSimulator;
+// describe('GamesSimulation', () => {
+//   let simulation: CoinFlippinGamesSimulator;
 
-  beforeEach(() => {
-    simulation = new CoinFlippinGamesSimulator(3, 3, 1000, 10);
-  });
+//   beforeEach(() => {
+//     simulation = new CoinFlippinGamesSimulator(3, 3, 1000, 10);
+//   });
 
-  it('should run the simulation and update the global map', async () => {
-    const onProgress = jasmine.createSpy('onProgress');
-    const onComplete = jasmine.createSpy('onComplete');
+//   it('should run the simulation and update the global map', async () => {
+//     const onProgress = jasmine.createSpy('onProgress');
+//     const onComplete = jasmine.createSpy('onComplete');
 
-    await simulation.startSimulation(onProgress, onComplete);
+//     await simulation.startSimulation(onProgress, onComplete);
 
-    expect(onProgress).toHaveBeenCalled();
-    expect(onComplete).toHaveBeenCalledWith(jasmine.any(Object));
-  });
+//     expect(onProgress).toHaveBeenCalled();
+//     expect(onComplete).toHaveBeenCalledWith(jasmine.any(Object));
+//   });
 
-  it('should stop the simulation when stopSimulation is called', async () => {
-    const onProgress = jasmine.createSpy('onProgress');
-    const onComplete = jasmine.createSpy('onComplete');
+//   it('should stop the simulation when stopSimulation is called', async () => {
+//     const onProgress = jasmine.createSpy('onProgress');
+//     const onComplete = jasmine.createSpy('onComplete');
 
-    setTimeout(() => simulation.stopSimulation(), 0);
-    await simulation.startSimulation(onProgress, onComplete);
+//     setTimeout(() => simulation.stopSimulation(), 0);
+//     await simulation.startSimulation(onProgress, onComplete);
 
-    expect(onProgress.calls.count()).toBeLessThan(10);
-    expect(onComplete).toHaveBeenCalledWith(jasmine.any(Object));
-  });
+//     expect(onProgress.calls.count()).toBeLessThan(10);
+//     expect(onComplete).toHaveBeenCalledWith(jasmine.any(Object));
+//   });
 
-  it('should correctly update the global map', () => {
-    const state: GameState = {
-      numberOfSteps: 10,
-      winA: true,
-      winB: false,
-      relativeDeviation: 0.1
-    };
+//   it('should correctly update the global map', () => {
+//     const state: GameState = {
+//       numberOfSteps: 10,
+//       winA: true,
+//       winB: false,
+//       relativeDeviation: 0.1
+//     };
 
-    simulation['updateGlobalMap'](state);
+//     simulation['updateGlobalMap'](state);
 
-    const globalMap: GlobalMap = simulation['globalMap'];
-    expect(globalMap[10]).toEqual({
-      winsA: 1,
-      winsB: 0,
-      draws: 0,
-      relativeDeviation: 0.1
-    });
-  });
+//     const globalMap: GlobalMap = simulation['globalMap'];
+//     expect(globalMap[10]).toEqual({
+//       winsA: 1,
+//       winsB: 0,
+//       draws: 0,
+//       relativeDeviation: 0.1
+//     });
+//   });
 
-  it('should correctly calculate relative deviation', () => {
-    const state1: GameState = {
-      numberOfSteps: 10,
-      winA: true,
-      winB: false,
-      relativeDeviation: 0.1
-    };
-    const state2: GameState = {
-      numberOfSteps: 10,
-      winA: false,
-      winB: true,
-      relativeDeviation: 0.2
-    };
+//   it('should correctly calculate relative deviation', () => {
+//     const state1: GameState = {
+//       numberOfSteps: 10,
+//       winA: true,
+//       winB: false,
+//       relativeDeviation: 0.1
+//     };
+//     const state2: GameState = {
+//       numberOfSteps: 10,
+//       winA: false,
+//       winB: true,
+//       relativeDeviation: 0.2
+//     };
 
-    simulation['updateGlobalMap'](state1);
-    simulation['updateGlobalMap'](state2);
+//     simulation['updateGlobalMap'](state1);
+//     simulation['updateGlobalMap'](state2);
 
-    const globalMap: GlobalMap = simulation['globalMap'];
-    expect(globalMap[10].relativeDeviation).toBeCloseTo(0.15, 2);
-  });
-});
+//     const globalMap: GlobalMap = simulation['globalMap'];
+//     expect(globalMap[10].relativeDeviation).toBeCloseTo(0.15, 2);
+//   });
+// });

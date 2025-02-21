@@ -1,48 +1,50 @@
 import { LoggerFactory } from "@vsirotin/log4ts";
-import { Experiment, IExperimentIntermediateState, IExprerimentInput, IExprerimentOutput, IExprerimentStepInput, IExprerimentStepOutput } from "./experiment";
+import { Experiment, IExprerimentOutput } from "./experiment";
 
-export interface IExprerimentSerieInput {};
 export interface IExprerimentSerieOutput {};
 export interface IExperimentSerieIntermediateState {};
 
 
-export abstract class ExperimentSerie <IExprerimentSerieInput, IExprerimentSerieOutput, IExperimentSerieIntermediateState>{
+export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerieIntermediateState>{
     private logger = LoggerFactory.getLogger("ExperimentSerie");
     protected isAborted = false;
+    protected experimentNumber = 0
 
-    abstract experiment: Experiment<IExprerimentStepInput, IExprerimentStepOutput, IExprerimentInput, IExprerimentOutput, IExperimentIntermediateState>
-
+    constructor(protected experiment : Experiment<IExprerimentOutput>){}
 
     async runExperimentSerie(
-        experimentSerieInput: IExprerimentSerieInput,
         progressReportFrequency: number,
-        onProgress: (state: IExperimentSerieIntermediateState) => void): Promise<IExprerimentSerieOutput | null> {
+        onProgress: (state: IExperimentSerieIntermediateState) => void): Promise<IExprerimentSerieOutput> {
+            this.logger.log("Start experiment serie");
             this.isAborted = false;
+            this.experimentNumber = 0;
             
             let experimentsCountWithoutProgressReport = 0;
-            let intermidateState: IExperimentSerieIntermediateState = this.prepareExperimentSerie(experimentSerieInput);
-            this.logger.log("Start experiment serie. intermediateState:", intermidateState);
-            let experimentNumber = 0;
+            this.prepareExperimentSerie();
+            
             while(!this.isAborted){
-                let experimentInput: IExprerimentInput = this.prepareExperiment(intermidateState, experimentNumber);
-                let experimentOutput: IExprerimentOutput | null = await this.experiment.runExperiment(experimentInput);
-                experimentNumber++;
-                intermidateState = this.updateExperimentSerieState(intermidateState, experimentOutput, experimentNumber);
-                this.logger.debug("Experiment:", experimentNumber, "intermediateState:", intermidateState);
+                this.prepareExperiment();
+                let experimentResult = await this.experiment.runExperiment();
+                this.updateExperimentSerieState(experimentResult);
+                this.experimentNumber++;
+            
+                this.logger.debug("Experiment:", this.experimentNumber,"experimentResult=", experimentResult);
                 if(experimentsCountWithoutProgressReport++ >= progressReportFrequency){
                     experimentsCountWithoutProgressReport = 0;
-                    onProgress(intermidateState);
+                    this.logger.debug("Before call rogress report");
+                    onProgress(this.generateIntermidateState());
                 }
-                let isCompleted = this.isExperimentSerieCompleted(experimentSerieInput, intermidateState, experimentNumber);
+                let isCompleted = this.isExperimentSerieCompleted();
                 if(isCompleted){
                     break;
                 }
                 await new Promise(resolve => setTimeout(resolve, 0));
             }
-            let experimentSerieOutput = this.generateOutput(experimentSerieInput, intermidateState, experimentNumber);
+            let experimentSerieOutput = this.generateOutput();
             this.logger.log("End experiment serie result:", experimentSerieOutput);
             return experimentSerieOutput;
     }
+   
     
   
     stopExperiment(): void{
@@ -50,19 +52,15 @@ export abstract class ExperimentSerie <IExprerimentSerieInput, IExprerimentSerie
         this.isAborted = true;
     }
 
-    abstract prepareExperimentSerie(input: IExprerimentSerieInput): IExperimentSerieIntermediateState
+    protected prepareExperiment(): void {};
 
-    abstract prepareExperiment<IExperimentSerirIntermediateState>(intermidateState: IExperimentSerirIntermediateState, experimentNumber: number): IExprerimentInput;
+    protected prepareExperimentSerie(): void {};
 
-    abstract updateExperimentSerieState(
-        experimentSerieState: IExperimentSerieIntermediateState, 
-        experimentOutput: IExprerimentOutput | null,
-        experimentNumber: number): IExperimentSerieIntermediateState;
+    protected abstract updateExperimentSerieState(experimentResult: IExprerimentOutput | null) : void;
 
-    abstract isExperimentSerieCompleted(
-        experimentOutput: IExprerimentSerieInput, 
-        intermidateState:  IExperimentSerieIntermediateState, 
-        experimentNumber: number): boolean;
+    protected abstract generateIntermidateState(): IExperimentSerieIntermediateState;
 
-    abstract generateOutput(input: IExprerimentSerieInput, intermediateState: IExperimentSerieIntermediateState, stepNumber: number): IExprerimentSerieOutput    
+    protected abstract isExperimentSerieCompleted(): boolean;
+
+    protected abstract generateOutput(): IExprerimentSerieOutput    
 }    
