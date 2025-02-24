@@ -23,6 +23,7 @@ export class CoinFlippingExperimentSerie extends ExperimentSerie<CoinFiippingGam
    private logger1 = LoggerFactory.getLogger("CoinFlippingExperimentSerie"); 
    private result = new CoinFiippingGameSerieOutput(new Map(), new Map(), new Map(), 0);
    private commonStepsCount = 0;
+   private countFlippingACommon = 0;
    
    
    constructor(private readonly input: CoinFlippingGameSerieInput){
@@ -32,6 +33,13 @@ export class CoinFlippingExperimentSerie extends ExperimentSerie<CoinFiippingGam
 
    protected override prepareExperimentSerie(): void {
         super.experiment = new CoinFlippingGame(this.input.defaultCoinFlippingGameInput)
+        this.countFlippingACommon = 0;
+    }
+
+    protected override prepareExperiment(): void {
+        //this.commonStepsCount = 0;
+        //this.countFlippingACommon = 0;
+        super.experiment = new CoinFlippingGame(this.input.defaultCoinFlippingGameInput);
     }
 
     protected override updateExperimentSerieState(experimentResult: CoinFiippingGameOutput | null) : void{
@@ -48,40 +56,43 @@ export class CoinFlippingExperimentSerie extends ExperimentSerie<CoinFiippingGam
         if(experimentResult.isWinnerA){
             difWinA = 1;
             difWinB = 0;
-        } else if(experimentResult.idDraw){
+        } else if(experimentResult.isDraw){
             difWinDraw = 1;
             difWinB = 0;
         }
 
         const numberSteps = experimentResult.numberOfSteps;
-        
-        const newRelativeDEvitation = this.result.relativeDeviation * this.commonStepsCount 
-            + experimentResult.relativeDeviation * experimentResult.numberOfSteps/(this.commonStepsCount + numberSteps);
         this.commonStepsCount += numberSteps;
+        this.countFlippingACommon += experimentResult.countFlippingA;
+        
+        const relativeDevitation = Math.abs(this.commonStepsCount/2.0 - this.countFlippingACommon)/this.commonStepsCount;
 
         this.result = new CoinFiippingGameSerieOutput(
             this.updateMap(this.result.gamesWithWinnerA, difWinA, numberSteps), 
             this.updateMap(this.result.gamesWithWinnerB, difWinB, numberSteps), 
             this.updateMap(this.result.gamesWithDraw, difWinDraw, numberSteps),
-            newRelativeDEvitation
+            relativeDevitation
         );
 
         this.logger1.debug("Experiment serie state updated:", this.result);
 
     }
-    private updateMap(gamesWithWinnerA: Map<number, number>, difWin: number, numberSteps: number): Map<number, number> {
+    private updateMap(gamesWithWinnerX: Map<number, number>, difWin: number, numberSteps: number): Map<number, number> {
+        if(difWin === 0){
+            return gamesWithWinnerX;
+        };
         const key = numberSteps;
-        const value = gamesWithWinnerA.get(key) || 0;
+        const value = gamesWithWinnerX.get(key) || 0;
         const newValue = value + difWin;
-        gamesWithWinnerA.set(key, newValue);
-        return gamesWithWinnerA;
+        gamesWithWinnerX.set(key, newValue);
+        return gamesWithWinnerX;
     }
     
     protected override generateIntermidateState(): CoinFiippingGameSerieOutput {
         return this.result;
     }
     protected override isExperimentSerieCompleted(): boolean {
-        return this.experimentNumber >=  this.input.numberExperiments;
+        return this.experimentNumber >  this.input.numberExperiments;
     }
    
     protected override generateOutput(): CoinFiippingGameSerieOutput {

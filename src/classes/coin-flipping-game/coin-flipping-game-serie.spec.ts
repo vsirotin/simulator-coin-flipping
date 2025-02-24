@@ -26,9 +26,20 @@ describe('CoinFlippingExperimentSerie', () => {
         callsCountOnProgress++;
     }
 
+
     const result = await experimentSerie.runExperimentSerie(10, onProgress);
-    expect(result).toBeTruthy();
     expect(callsCountOnProgress).toEqual(9);
+    expect(result.relativeDeviation).toBeLessThan(0.15);
+    
+    expect(result.gamesWithDraw.size).toEqual(0);
+    expect(result.gamesWithWinnerA.size).toEqual(1);
+    expect(result.gamesWithWinnerB.size).toEqual(1);
+    
+    const gamesWithWinnerA = result.gamesWithWinnerA.get(1) || 0;
+    const gamesWithWinnerB = result.gamesWithWinnerB.get(1) || 0;
+    expect(gamesWithWinnerA + gamesWithWinnerB).toEqual(100);
+    expect(gamesWithWinnerA).toBeGreaterThan(30);
+    expect(gamesWithWinnerB).toBeGreaterThan(30);
     
   });
 

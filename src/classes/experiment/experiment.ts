@@ -15,7 +15,7 @@ export abstract class Experiment<IExprerimentOutput> {
     private logger = LoggerFactory.getLogger("Experiment");
     
     private isAborted = false;
-    stepNumber = 0;
+    stepNumber = 1;
 
     constructor (protected experimentStep: IExperimentStep){};
 
@@ -23,16 +23,17 @@ export abstract class Experiment<IExprerimentOutput> {
             this.logger.log("Start experiment");
             this.isAborted = false;
             this.prepareExperiment();
-            this.stepNumber = 0;
+            this.stepNumber = 1;
             
             while(!this.isAborted){
                 this.experimentStep.runExperimentStep();
-                this.stepNumber++;
+
                 let isCompleted = this.isExperimentCompleted();
                 this.logger.debug("Step:", this.stepNumber, "isCompleted:", isCompleted);
                 if(isCompleted){
                     break;
                 }
+                this.stepNumber++;
                 await new Promise(resolve => setTimeout(resolve, 0));
             }
             let result = this.generateOutput(); 

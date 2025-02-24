@@ -8,7 +8,7 @@ export interface IExperimentSerieIntermediateState {};
 export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerieIntermediateState>{
     private logger = LoggerFactory.getLogger("ExperimentSerie");
     protected isAborted = false;
-    protected experimentNumber = 0
+    protected experimentNumber = 1
 
     constructor(protected experiment : Experiment<IExprerimentOutput>){}
 
@@ -17,7 +17,7 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
         onProgress: (state: IExperimentSerieIntermediateState) => void): Promise<IExprerimentSerieOutput> {
             this.logger.log("Start experiment serie");
             this.isAborted = false;
-            this.experimentNumber = 0;
+            this.experimentNumber = 1;
             
             let experimentsCountWithoutProgressReport = 0;
             this.prepareExperimentSerie();

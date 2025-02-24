@@ -6,7 +6,8 @@ class CoinFlipping implements IExperimentStep {
   generatorUniformDistribution: IGeneratorUniformDistributionBoolean = new GeneratorUniformDistributionBoolean();
   betA: number;
   betB: number;
-  countFlippingA = 0;
+
+  static countFlippingAInSteps = 0;
 
   constructor(input: CoinFlippingGameInput) {
     this.betA = input.betA;
@@ -14,10 +15,11 @@ class CoinFlipping implements IExperimentStep {
   }
   runExperimentStep(): void {
     const result = this.generatorUniformDistribution.generate();
+
     if(result){
       this.betA++;
       this.betB--;
-      this.countFlippingA++;
+      CoinFlipping.countFlippingAInSteps++;
       return
     }
     this.betA--;
@@ -37,9 +39,9 @@ export class CoinFlippingGameInput {
 export class CoinFiippingGameOutput implements IExprerimentOutput {
   constructor(
     public isWinnerA: boolean,
-    public idDraw: boolean,
+    public isDraw: boolean,
     public numberOfSteps: number,
-    public relativeDeviation: number
+    public countFlippingA: number
   ) { }
 }
 
@@ -52,19 +54,34 @@ export class CoinFlippingGame extends Experiment<CoinFiippingGameOutput> {
 
   maxGameLength: number = 0;
 
+
   constructor(input: CoinFlippingGameInput) {
     super(new CoinFlipping(input));
     this.maxGameLength = input.maxGameLength;
     this.experimentStep = new CoinFlipping(input);
+    this.logger1.log("CoinFlippingGame created input:", input);
+  }
+
+  override prepareExperiment(): void {
+    CoinFlipping.countFlippingAInSteps = 0;
   }
 
   override isExperimentCompleted(): boolean {
-    return this.experimentStep.betA === 0 || this.experimentStep.betB === 0 || this.stepNumber >= this.maxGameLength;
+    return this.experimentStep.betA <= 0 || this.experimentStep.betB <= 0 || this.stepNumber >= this.maxGameLength;
+  }
+
+  override async runExperiment(): Promise<CoinFiippingGameOutput | null> {
+      const result = await super.runExperiment();
+      this.logger1.debug("runExperiment result:", result);
+      return result;
   }
   override generateOutput(): CoinFiippingGameOutput {
-    return new CoinFiippingGameOutput(this.experimentStep.betA === 0, 
+    const result = new CoinFiippingGameOutput(this.experimentStep.betB === 0, 
       !(this.experimentStep.betA === 0 || this.experimentStep.betB === 0), 
-      this.stepNumber, Math.abs((this.stepNumber / 2.0 - this.experimentStep.countFlippingA) / this.stepNumber / 2.0));
+      this.stepNumber, 
+      CoinFlipping.countFlippingAInSteps);
+      this.logger1.debug("generateOutput this:", this, "result:", result);
+      return result;
   }
 }
 
