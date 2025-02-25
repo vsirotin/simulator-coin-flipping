@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ExplanationComponent } from './explanation/explanation.component';
 import { ParameterComponent } from './parameter/parameter.component';
+import { ProgressComponent } from './progress/progress.component';
+import { ReportComponent } from './report/report.component';
 
 @Component({
   selector: 'app-simple-coin-flipping',
@@ -9,7 +11,9 @@ import { ParameterComponent } from './parameter/parameter.component';
   standalone: true,
   imports: [
     ExplanationComponent,
-    ParameterComponent
+    ParameterComponent,
+    ProgressComponent,
+    ReportComponent
   ]
 })
 export class SimpleCoinFlippingComponent {}

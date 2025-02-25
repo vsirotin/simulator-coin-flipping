@@ -31,14 +31,16 @@ export class CoinFlippingExperimentSerie extends ExperimentSerie<CoinFiippingGam
     this.logger1.log("CoinFlippingExperimentSerie created input:", input);
    };
 
+   getCurrentExperimentProgress(): number {
+       return this.experimentNumber/this.input.numberExperiments;
+    }
+
    protected override prepareExperimentSerie(): void {
         super.experiment = new CoinFlippingGame(this.input.defaultCoinFlippingGameInput)
         this.countFlippingACommon = 0;
     }
 
     protected override prepareExperiment(): void {
-        //this.commonStepsCount = 0;
-        //this.countFlippingACommon = 0;
         super.experiment = new CoinFlippingGame(this.input.defaultCoinFlippingGameInput);
     }
 

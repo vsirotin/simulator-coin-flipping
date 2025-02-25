@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CoinFiippingGameSerieOutput, CoinFlippingExperimentSerie, CoinFlippingGameSerieInput } from '../../../classes/coin-flipping-game/coin-flipping-game-serie';
 import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-flipping-game';
 import { LoggerFactory } from '@vsirotin/log4ts';
+import { NotifierService } from '../../../services/progress-notifier';
 
 @Component({
   selector: 'app-parameter',
@@ -24,8 +25,11 @@ export class ParameterComponent {
       betB: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
       maxGameLength: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       numberOfGames: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
-      progressReportFrequency: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]]
+      progressReportFrequency: [1, [Validators.required, Validators.min(1), Validators.max(1000000)]]
     });
+    // Bind the reportProgress method to the instance
+    this.reportProgress = this.reportProgress.bind(this);
+
     LoggerFactory.setAllLevelsByAllLoggers();
     this.logger.log('ParameterComponent created');
   }
@@ -48,7 +52,8 @@ export class ParameterComponent {
       const result = await this.experimentSerie.runExperimentSerie(
         this.parameterForm.value.progressReportFrequency, this.reportProgress);
 
-      this.isSimulationRunning = false;  
+      this.isSimulationRunning = false; 
+      NotifierService.notifyProgress(100); 
     }
   }
 
@@ -59,6 +64,8 @@ export class ParameterComponent {
   }
 
   reportProgress (state: CoinFiippingGameSerieOutput): void {
-    //this.logger.log("Progress report:", state);
+    let experimentProgress = this.experimentSerie?.getCurrentExperimentProgress() || 0;
+    this.logger.log('Progress:', experimentProgress);
+    NotifierService.notifyProgress(experimentProgress * 100);
   }
 }
