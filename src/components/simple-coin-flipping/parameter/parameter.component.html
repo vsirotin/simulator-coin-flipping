@@ -1,17 +1,22 @@
 <div class="parameter">
   <form [formGroup]="parameterForm">
-
+    <p>  
       Bet A:
       <input type="number" formControlName="betA" min="1" max="1000">
       Bet B:
       <input type="number" formControlName="betB" min="1" max="1000">
-
+    </p>
+    <p> 
       Maximal Game Length:
       <input type="number" formControlName="maxGameLength" min="1" max="1000000">
 
       Number of Games:
       <input type="number" formControlName="numberOfGames" min="1" max="1000000">
-
+    </p>
+    <p> 
+      Progress Report Frequency:
+      <input type="number" formControlName="progressReportFrequency" min="1" max="1000000">
+    </p> 
     <div class="buttons">
       <button type="button" (click)="startSimulation()" [disabled]="!parameterForm.valid || isSimulationRunning">Start</button>
       <button type="button" (click)="stopSimulation()" [disabled]="!isSimulationRunning">Stop</button>
