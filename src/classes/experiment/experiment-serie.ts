@@ -47,7 +47,7 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
    
     
   
-    stopExperiment(): void{
+    stopExperimentSerie(): void{
         this.logger.log("Stop experiment serie");
         this.isAborted = true;
     }
