@@ -29,8 +29,6 @@ export class ParameterComponent {
     });
     // Bind the reportProgress method to the instance
     this.reportProgress = this.reportProgress.bind(this);
-
-    LoggerFactory.setAllLevelsByAllLoggers();
     this.logger.log('ParameterComponent created');
   }
 
@@ -67,5 +65,6 @@ export class ParameterComponent {
     let experimentProgress = this.experimentSerie?.getCurrentExperimentProgress() || 0;
     this.logger.log('Progress:', experimentProgress);
     NotifierService.notifyProgress(experimentProgress * 100);
+    NotifierService.notifyState(state);
   }
 }

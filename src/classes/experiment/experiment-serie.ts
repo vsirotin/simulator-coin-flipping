@@ -21,6 +21,7 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
             
             let experimentsCountWithoutProgressReport = 0;
             this.prepareExperimentSerie();
+            onProgress(this.generateIntermidateState());
             
             while(!this.isAborted){
                 this.prepareExperiment();
@@ -36,6 +37,7 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
                 }
                 let isCompleted = this.isExperimentSerieCompleted();
                 if(isCompleted){
+                    onProgress(this.generateIntermidateState());
                     break;
                 }
                 await new Promise(resolve => setTimeout(resolve, 0));

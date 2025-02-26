@@ -1,0 +1,11 @@
+.report-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.report-card {
+  flex: 1 1 auto;
+  min-width: 300px;
+  max-width: 100%;
+}
