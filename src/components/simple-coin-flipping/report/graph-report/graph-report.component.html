@@ -1,19 +1,6 @@
-<div class="chart-container">
-  <google-chart #chart
-  [title]="title1"
-  [type]="type1"
-  [data]="data1"
-  [options]="options1"
-  [width]="600"
-  [height]="200">
- </google-chart>
-  <google-chart
-    [type]="type"
-    [data]="data"
-    [columns]="columnNames"
-    [options]="chartOptions"
-    [width]="600"
-    [height]="400">
-  </google-chart>
 
+<div class="chart-container">
+  <app-graph-report-pie></app-graph-report-pie>
+  <app-graph-report-column></app-graph-report-column>
+  <app-graph-report-area></app-graph-report-area>
 </div>
