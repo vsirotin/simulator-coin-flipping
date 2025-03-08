@@ -1,20 +1,28 @@
 <div class="parameter">
   <form [formGroup]="parameterForm">
     <p>  
-      Bet A:
+      Player A  Bet:
       <input type="number" formControlName="betA" min="1" max="1000">
-      Bet B:
-      <input type="number" formControlName="betB" min="1" max="1000">
+      Limit for gambling in Gaming Run
+      <input type="number" formControlName="limitA" min="1" max="1000">
     </p>
+    <hr>
+    <p>   
+      Player B Bet:
+      <input type="number" formControlName="betB" min="1" max="1000">
+      Limit for gambling in Gaming Run
+      <input type="number" formControlName="limitB" min="1" max="1000">
+    </p>
+    <hr>
     <p> 
-      Maximal Game Length:
+      Maximal game length:
       <input type="number" formControlName="maxGameLength" min="1" max="1000000">
 
-      Number of Games:
+      Number of games in Gaming Run:
       <input type="number" formControlName="numberOfGames" min="1" max="1000000">
     </p>
     <p> 
-      Progress Report Frequency:
+      Progress report frequency:
       <input type="number" formControlName="progressReportFrequency" min="1" max="1000000">
     </p> 
     <div class="buttons">

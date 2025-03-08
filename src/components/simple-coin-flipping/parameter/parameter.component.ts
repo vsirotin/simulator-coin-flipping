@@ -23,6 +23,8 @@ export class ParameterComponent {
     this.parameterForm = this.fb.group({
       betA: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
       betB: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      limitA: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      limitB: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
       maxGameLength: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       numberOfGames: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       progressReportFrequency: [1, [Validators.required, Validators.min(1), Validators.max(1000000)]]
