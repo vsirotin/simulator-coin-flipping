@@ -3,8 +3,6 @@ import { RouterOutlet } from '@angular/router';
 
 import { ToolbarComponent } from '../components/toolbar/toolbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
-import { SimpleCoinFlippingComponent } from '../components/simple-coin-flipping/simple-coin-flipping.component';
-import { SettingsComponent } from '../components/settings/settings.component';
 
 @Component({
     selector: 'app-root',
