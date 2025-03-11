@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ChartType, GoogleChartsModule } from 'angular-google-charts';
 import { LoggerFactory } from '@vsirotin/log4ts';
+import { NotifierService } from '../../../../../services/progress-notifier';
+import { CoinFiippingGameSerieOutput } from '../../../../../classes/coin-flipping-game/coin-flipping-game-serie';
 
 @Component({
     selector: 'app-graph-report-area',
@@ -13,23 +15,38 @@ export class GraphReportAreaComponent {
   logger = LoggerFactory.getLogger('GraphReportAreaComponent');
 
     typeAreaChart: ChartType = ChartType.AreaChart;
+    dataAreaChart: any[] = [];
   
-    dataAreaChart = [
-            [1, 8.4,         7.9],
-            [2,    6.9,         6.5],
-            [3,        6.5,         6.4],
-            [4,      -4.4,         6.2]
-    ];
-  
-    optionsAreaChart = { title: 'Wallet Dynamics',
+    optionsAreaChart = { title: 'Wallet Dynamic',
       vAxis: {title: 'Wallet balance'},
       hAxis: {title: 'Coin flips'},
       isStacked: true,
       series: {
-        0:{color: 'blue', labelInLegend: "Wallet B"},
-        1:{color: 'red', labelInLegend: "Wallet A"}
+        0:{color: 'blue', labelInLegend: "Wallet A"},
+        1:{color: 'red', labelInLegend: "Wallet B"}
 
       }
     };
 
+    ngOnInit() {
+        NotifierService.getStateObservable().subscribe(state => {
+          this.updateChartData(state);
+        });
+      }
+      
+    updateChartData(state: CoinFiippingGameSerieOutput) {
+      this.logger.debug('updateChartData state:', state);
+  
+      const n = state.walletA.length;
+
+      const newData = new Array<any>();
+
+      for (let i = 0; i < n; i++) {
+        newData.push([i, state.walletA[i], state.walletB[i]]);
+      }
+
+      this.dataAreaChart = newData;
+
+      this.logger.debug('data:', this.dataAreaChart);
+    }
 }

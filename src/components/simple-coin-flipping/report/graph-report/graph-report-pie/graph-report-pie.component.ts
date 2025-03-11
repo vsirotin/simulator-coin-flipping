@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { ChartType, GoogleChartsModule } from 'angular-google-charts';
 import { NotifierService } from '../../../../../services/progress-notifier';

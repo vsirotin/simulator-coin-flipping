@@ -1,20 +1,27 @@
-<div class="explanation">
-  <p>This simulation models a 'gaming run' using a simplified coin-flipping game between two players, A and B.</p>
-  <h2>Gaming Run Setup:</h2>
-  <ul>
-    <li>Each player begins with an equal number of 'coins,' their initial wallet limit.</li>
-    <li>Players set their 'bet' for each game before the run begins.</li>
-    <li>A gaming run consists of a predetermined maximum number of games.</li>
-    <li>The run ends early if a player's coin count falls below their bet.</li>
-  </ul>
+<mat-accordion>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Rules </mat-panel-title>
+    </mat-expansion-panel-header>
+      <div class="explanation">
+        <p>This simulation models a 'gaming run' using a simplified coin-flipping game between two players, A and B.</p>
+        <h2>Gaming Run Setup:</h2>
+        <ul>
+          <li>Each player begins with an equal number of 'coins,' their initial wallet limit.</li>
+          <li>Players set their 'bet' for each game before the run begins.</li>
+          <li>A gaming run consists of a predetermined maximum number of games.</li>
+          <li>The run ends early if a player's coin count falls below their bet.</li>
+        </ul>
 
-  <h2>Game Mechanics:</h2>
-  <ul>
-    <li>Each game consists of multiple 'coin flips.'</li>
-    <li>'Heads': Player A's coin count decreases by one, and Player B's increases by one.</li>
-    <li>'Tails': Player B's coin count decreases by one, and Player A's increases by one.</li>
-    <li>A player loses when their coin count reaches zero.</li>
-    <li>A game ends in a draw if a maximum number of coin flips is reached.</li>
-    <li>In case of a win or loss, the bet amount is transferred from the loser to the winner. In case of a draw, no coins are transferred.</li>
-  </ul>
-</div>
+        <h2>Game Mechanics:</h2>
+        <ul>
+          <li>Each game consists of multiple 'coin flips.'</li>
+          <li>'Heads': Player A's coin count decreases by one, and Player B's increases by one.</li>
+          <li>'Tails': Player B's coin count decreases by one, and Player A's increases by one.</li>
+          <li>A player loses when their coin count reaches zero.</li>
+          <li>A game ends in a draw if a maximum number of coin flips is reached.</li>
+          <li>In case of a win or loss, the bet amount is transferred from the loser to the winner. In case of a draw, no coins are transferred.</li>
+        </ul>
+      </div>
+  </mat-expansion-panel>
+</mat-accordion>

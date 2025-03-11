@@ -26,8 +26,7 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
             while(!this.isAborted){
                 this.prepareExperiment();
                 let experimentResult = await this.experiment.runExperiment();
-                this.updateExperimentSerieState(experimentResult);
-                this.experimentNumber++;
+
             
                 this.logger.debug("Experiment:", this.experimentNumber,"experimentResult=", experimentResult);
                 if(experimentsCountWithoutProgressReport++ >= progressReportFrequency){
@@ -40,6 +39,8 @@ export abstract class ExperimentSerie <IExprerimentSerieOutput, IExperimentSerie
                     onProgress(this.generateIntermidateState());
                     break;
                 }
+                this.updateExperimentSerieState(experimentResult);
+                this.experimentNumber++;
                 await new Promise(resolve => setTimeout(resolve, 0));
             }
             let experimentSerieOutput = this.generateOutput();

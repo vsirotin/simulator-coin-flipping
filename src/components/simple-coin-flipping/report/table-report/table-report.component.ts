@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule} from '@angular/material/table';
 import { NotifierService } from '../../../../services/progress-notifier';
 import { CoinFiippingGameSerieOutput } from '../../../../classes/coin-flipping-game/coin-flipping-game-serie';
 import { LoggerFactory } from '@vsirotin/log4ts';

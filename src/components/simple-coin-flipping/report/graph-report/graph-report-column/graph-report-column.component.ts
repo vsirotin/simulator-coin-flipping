@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, } from '@angular/core';
 import { ChartType, GoogleChartsModule } from 'angular-google-charts';
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { NotifierService } from '../../../../../services/progress-notifier';
@@ -19,8 +19,6 @@ export class GraphReportColumnComponent {
 
   columnNames = ['steps', 'Wins A', 'Wins B'];
 
-  
-
   chartOptions = {
     title: 'Win Distribution',
     hAxis: {
@@ -33,34 +31,34 @@ export class GraphReportColumnComponent {
   };
 
   ngOnInit() {
-      NotifierService.getStateObservable().subscribe(state => {
-        this.updateChartData(state);
-      });
-    }
+    NotifierService.getStateObservable().subscribe(state => {
+      this.updateChartData(state);
+    });
+  }
   
-    updateChartData(state: CoinFiippingGameSerieOutput) {
-      this.logger.debug('updateChartData state:', state);
-  
-      const allStepsSet = new Set<number>([
-        ...state.gamesWithWinnerA.keys(),
-        ...state.gamesWithWinnerB.keys()
-      ]);
-  
-      const allSteps = Array.from(allStepsSet).sort((a, b) => a - b);
-  
-      this.logger.debug('allSteps:', allSteps);
-      this.data = new Array<any>();
-      allSteps.forEach(step => {
-        const line = [
-          "" + step,
-          state.gamesWithWinnerA.get(step) || 0,
-          state.gamesWithWinnerB.get(step) || 0,
-        ];
-        this.data.push(line);
-        
-      });
-      this.logger.debug('data:', this.data);
-  
-    }
+  updateChartData(state: CoinFiippingGameSerieOutput) {
+    this.logger.debug('updateChartData state:', state);
+
+    const allStepsSet = new Set<number>([
+      ...state.gamesWithWinnerA.keys(),
+      ...state.gamesWithWinnerB.keys()
+    ]);
+
+    const allSteps = Array.from(allStepsSet).sort((a, b) => a - b);
+
+    this.logger.debug('allSteps:', allSteps);
+    this.data = new Array<any>();
+    allSteps.forEach(step => {
+      const line = [
+        "" + step,
+        state.gamesWithWinnerA.get(step) || 0,
+        state.gamesWithWinnerB.get(step) || 0,
+      ];
+      this.data.push(line);
+      
+    });
+    this.logger.debug('data:', this.data);
+
+  }
 
 }

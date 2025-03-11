@@ -1,5 +1,10 @@
 <div class="parameter">
   <form [formGroup]="parameterForm">
+    <mat-accordion>
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Parameters </mat-panel-title>
+        </mat-expansion-panel-header>
     <p>  
       Player A  Bet:
       <input type="number" formControlName="betA" min="1" max="1000">
@@ -25,6 +30,8 @@
       Progress report frequency:
       <input type="number" formControlName="progressReportFrequency" min="1" max="1000000">
     </p> 
+  </mat-expansion-panel>
+</mat-accordion>
     <hr>
     <div class="buttons">
       <button mat-mini-fab (click)="startSimulation()" [disabled]="!parameterForm.valid || isSimulationRunning">

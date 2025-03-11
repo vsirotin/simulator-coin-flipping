@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule} from '@angular/material/icon';
+import { MatButtonModule} from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CoinFiippingGameSerieOutput, CoinFlippingExperimentSerie, CoinFlippingGameSerieInput } from '../../../classes/coin-flipping-game/coin-flipping-game-serie';
 import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-flipping-game';
@@ -15,7 +16,8 @@ import { NotifierService } from '../../../services/progress-notifier';
     imports: [
         ReactiveFormsModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatExpansionModule
     ]
 })
 export class ParameterComponent {
@@ -51,6 +53,8 @@ export class ParameterComponent {
 
       const serieInput = new CoinFlippingGameSerieInput(
         this.parameterForm.value.numberOfGames,
+        this.parameterForm.value.limitA,
+        this.parameterForm.value.limitB,
         gameInput
       );
 

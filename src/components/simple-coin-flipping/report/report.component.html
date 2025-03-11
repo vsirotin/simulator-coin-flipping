@@ -10,6 +10,28 @@
   <h2>Wallet Dynamics:</h2>
   <p>The final graph on the right depicts the changes in each player's coin count (wallet) over the course of the gaming run (coin flips). This shows how the player's coins fluctuated during the simulation.</p>
 </div>
+@if (isResultAvailable) {
+<div >
+  <div class="report-container">
+    <mat-card class="report-card">
+      <mat-card-header>
+        <mat-card-title>Win Distribution</mat-card-title>
+       
+      </mat-card-header>
+      <mat-card-content>
+        <app-table-report></app-table-report>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="report-card">
+      <mat-card-header>
+        <mat-card-title>Graph report</mat-card-title>
+        
+      </mat-card-header>
+      <mat-card-content>
+        <app-graph-report></app-graph-report>
+      </mat-card-content>
+    </mat-card>
+  </div>
 <div class="report-container">
   <mat-card class="report-card">
     <mat-card-header>
@@ -30,3 +52,5 @@
     </mat-card-content>
   </mat-card>
 </div>
+</div>
+}
