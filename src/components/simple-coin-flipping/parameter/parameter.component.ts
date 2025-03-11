@@ -8,15 +8,15 @@ import { LoggerFactory } from '@vsirotin/log4ts';
 import { NotifierService } from '../../../services/progress-notifier';
 
 @Component({
-  selector: 'app-parameter',
-  templateUrl: './parameter.component.html',
-  styleUrls: ['./parameter.component.scss'],
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule
-  ]
+    standalone: true,
+    selector: 'app-parameter',
+    templateUrl: './parameter.component.html',
+    styleUrls: ['./parameter.component.scss'],
+    imports: [
+        ReactiveFormsModule,
+        MatIconModule,
+        MatButtonModule
+    ]
 })
 export class ParameterComponent {
   parameterForm: FormGroup;

@@ -5,11 +5,10 @@ import { NotifierService } from '../../../../../services/progress-notifier';
 import { CoinFiippingGameSerieOutput } from '../../../../../classes/coin-flipping-game/coin-flipping-game-serie';
 
 @Component({
-  selector: 'app-graph-report-column',
-  standalone: true,
-  imports: [GoogleChartsModule],
-  templateUrl: './graph-report-column.component.html',
-  styleUrl: './graph-report-column.component.scss'
+    selector: 'app-graph-report-column',
+    imports: [GoogleChartsModule],
+    templateUrl: './graph-report-column.component.html',
+    styleUrl: './graph-report-column.component.scss'
 })
 export class GraphReportColumnComponent {
   logger = LoggerFactory.getLogger('GraphReportColumnComponent');

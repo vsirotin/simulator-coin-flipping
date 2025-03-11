@@ -13,11 +13,10 @@ interface Line {
 }
 
 @Component({
-  selector: 'app-table-report',
-  standalone: true,
-  imports: [MatTableModule],
-  templateUrl: './table-report.component.html',
-  styleUrl: './table-report.component.scss'
+    selector: 'app-table-report',
+    imports: [MatTableModule],
+    templateUrl: './table-report.component.html',
+    styleUrl: './table-report.component.scss'
 })
 export class TableReportComponent {
 

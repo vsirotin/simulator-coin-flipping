@@ -3,11 +3,10 @@ import { NotifierService } from '../../../services/progress-notifier';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
-  selector: 'app-progress',
-  standalone: true,
-  imports: [MatProgressBarModule],
-  templateUrl: './progress.component.html',
-  styleUrl: './progress.component.scss'
+    selector: 'app-progress',
+    imports: [MatProgressBarModule],
+    templateUrl: './progress.component.html',
+    styleUrl: './progress.component.scss'
 })
 export class ProgressComponent {
   progressValue: number = 0;

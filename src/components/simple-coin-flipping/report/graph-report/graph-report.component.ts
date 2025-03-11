@@ -8,17 +8,15 @@ import { GraphReportAreaComponent } from "./graph-report-area/graph-report-area.
 import { GraphReportColumnComponent} from "./graph-report-column/graph-report-column.component";
 
 @Component({
-  selector: 'app-graph-report',
-  standalone: true,
-  imports: [
-    GoogleChartsModule, 
-    GraphReportPieComponent,
-    GraphReportAreaComponent,
-    GraphReportColumnComponent
-  ],
-  templateUrl: './graph-report.component.html',
-  styleUrls: ['./graph-report.component.scss']
-
+    selector: 'app-graph-report',
+    imports: [
+        GoogleChartsModule,
+        GraphReportPieComponent,
+        GraphReportAreaComponent,
+        GraphReportColumnComponent
+    ],
+    templateUrl: './graph-report.component.html',
+    styleUrls: ['./graph-report.component.scss']
 })
 export class GraphReportComponent implements OnInit {
   logger = LoggerFactory.getLogger('GraphReportComponent');

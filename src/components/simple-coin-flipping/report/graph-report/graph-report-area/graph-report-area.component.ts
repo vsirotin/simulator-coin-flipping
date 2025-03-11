@@ -3,11 +3,10 @@ import { ChartType, GoogleChartsModule } from 'angular-google-charts';
 import { LoggerFactory } from '@vsirotin/log4ts';
 
 @Component({
-  selector: 'app-graph-report-area',
-  standalone: true,
-  imports: [GoogleChartsModule],
-  templateUrl: './graph-report-area.component.html',
-  styleUrl: './graph-report-area.component.scss'
+    selector: 'app-graph-report-area',
+    imports: [GoogleChartsModule],
+    templateUrl: './graph-report-area.component.html',
+    styleUrl: './graph-report-area.component.scss'
 })
 export class GraphReportAreaComponent {
 
