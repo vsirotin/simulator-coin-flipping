@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CoinFiippingGameSerieOutput, CoinFlippingExperimentSerie, CoinFlippingGameSerieInput } from '../../../classes/coin-flipping-game/coin-flipping-game-serie';
 import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-flipping-game';
@@ -10,7 +12,11 @@ import { NotifierService } from '../../../services/progress-notifier';
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule]
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class ParameterComponent {
   parameterForm: FormGroup;

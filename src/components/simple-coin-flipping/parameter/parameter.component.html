@@ -25,9 +25,18 @@
       Progress report frequency:
       <input type="number" formControlName="progressReportFrequency" min="1" max="1000000">
     </p> 
+    <hr>
     <div class="buttons">
-      <button type="button" (click)="startSimulation()" [disabled]="!parameterForm.valid || isSimulationRunning">Start</button>
-      <button type="button" (click)="stopSimulation()" [disabled]="!isSimulationRunning">Stop</button>
+      <button mat-mini-fab (click)="startSimulation()" [disabled]="!parameterForm.valid || isSimulationRunning">
+        <mat-icon>play_circle</mat-icon>
+
+      </button>
+      Start
+      <button mat-mini-fab  (click)="stopSimulation()" [disabled]="!isSimulationRunning">
+        <mat-icon>stop_circle</mat-icon>
+      </button>
+      Stop
     </div>
+    <hr>
   </form>
 </div>
