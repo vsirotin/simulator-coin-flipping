@@ -21,12 +21,13 @@ export class GraphReportAreaComponent {
             [4,      -4.4,         6.2]
     ];
   
-    optionsAreaChart = { title: 'Accumulated revenue time line',
-      vAxis: {title: 'Accumulated Rating'},
+    optionsAreaChart = { title: 'Wallet Dynamics',
+      vAxis: {title: 'Wallet balance'},
+      hAxis: {title: 'Coin flips'},
       isStacked: true,
       series: {
-        0:{color: 'blue', labelInLegend: "Revenue B"},
-        1:{color: 'red', labelInLegend: "Revenue A"}
+        0:{color: 'blue', labelInLegend: "Wallet B"},
+        1:{color: 'red', labelInLegend: "Wallet A"}
 
       }
     };

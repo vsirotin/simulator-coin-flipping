@@ -22,15 +22,14 @@ export class GraphReportColumnComponent {
   
 
   chartOptions = {
-    title: 'Games Results',
+    title: 'Win Distribution',
     hAxis: {
-      title: 'Number of wins by step'
+      title: 'Number of wins by coin flip'
     },
     vAxis: {
-      title: 'Number of steps up to win'
+      title: 'Number of coin flips up to win'
     },
     legend: { position: 'top' },
-
   };
 
   ngOnInit() {
@@ -44,8 +43,7 @@ export class GraphReportColumnComponent {
   
       const allStepsSet = new Set<number>([
         ...state.gamesWithWinnerA.keys(),
-        ...state.gamesWithWinnerB.keys(),
-        ...state.gamesWithDraw.keys()
+        ...state.gamesWithWinnerB.keys()
       ]);
   
       const allSteps = Array.from(allStepsSet).sort((a, b) => a - b);

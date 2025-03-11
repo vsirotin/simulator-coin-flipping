@@ -22,6 +22,7 @@ export class GraphReportPieComponent {
   dataPieChart : any[] = [];
 
   optionsPieChart = {
+    title: 'Game run result overview',
     colors: ['red', 'blue', 'gray'], is3D: true
   };
 
@@ -34,21 +35,20 @@ export class GraphReportPieComponent {
   updateChartData(state: CoinFiippingGameSerieOutput) {
     this.logger.debug('updateChartData state:', state);
 
-    const allStepsSet = new Set<number>([
-      ...state.gamesWithWinnerA.keys(),
-      ...state.gamesWithWinnerB.keys(),
-      ...state.gamesWithDraw.keys()
-    ]);
+    const winsA = Array.from(state.gamesWithWinnerA.values()).reduce((sum, value) => sum + value, 0);
+    const winsB = Array.from(state.gamesWithWinnerB.values()).reduce((sum, value) => sum + value, 0);
+    const winsDraw = Array.from(state.gamesWithDraw.values()).reduce((sum, value) => sum + value, 0);
 
-    const allSteps = Array.from(allStepsSet).sort((a, b) => a - b);
-
-    this.logger.debug('allSteps:', allSteps);
+    
+    this.logger.debug('in updateChartData winsA: ', winsA, " winsB: ", winsB, " winsDraw: ", winsDraw);
 
     this.dataPieChart =[
-      ['Win A', 12],
-      ['Win B', 26.8],
-      ['Draw', 12.8]
+      ['Win A', winsA],
+      ['Win B', winsB],
+      ['Draw', winsDraw]
     ];
+
+    
   }
 
 }
