@@ -54,7 +54,7 @@ jobs:
         run: npm list  
 
       - name: Build Angular App
-        run: npm run build main-app -- --configuration production --verbose
+        run: npm run build --verbose
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
