@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule} from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CoinFiippingGameSerieOutput, CoinFlippingExperimentSerie, CoinFlippingGameSerieInput } from '../../../classes/coin-flipping-game/coin-flipping-game-serie';
 import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-flipping-game';
@@ -17,7 +19,9 @@ import { NotifierService } from '../../../services/progress-notifier';
         ReactiveFormsModule,
         MatIconModule,
         MatButtonModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule
     ]
 })
 export class ParameterComponent {
@@ -29,12 +33,12 @@ export class ParameterComponent {
   
   constructor(private fb: FormBuilder) {
     this.parameterForm = this.fb.group({
-      betA: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      betA: [10, [Validators.required, Validators.min(1), Validators.max(1000)]],
       betB: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      limitA: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      limitB: [3, [Validators.required, Validators.min(1), Validators.max(1000)]],
-      maxGameLength: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
-      numberOfGames: [10, [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      limitA: [25, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      limitB: [50, [Validators.required, Validators.min(1), Validators.max(1000)]],
+      maxGameLength: [50, [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      numberOfGames: [20, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       progressReportFrequency: [1, [Validators.required, Validators.min(1), Validators.max(1000000)]]
     });
     // Bind the reportProgress method to the instance

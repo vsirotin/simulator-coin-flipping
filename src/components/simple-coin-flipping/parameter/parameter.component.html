@@ -5,31 +5,41 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Parameters </mat-panel-title>
         </mat-expansion-panel-header>
-    <p>  
-      Player A  Bet:
-      <input type="number" formControlName="betA" min="1" max="1000">
-      Limit for gambling in Gaming Run
-      <input type="number" formControlName="limitA" min="1" max="1000">
-    </p>
-    <hr>
-    <p>   
-      Player B Bet:
-      <input type="number" formControlName="betB" min="1" max="1000">
-      Limit for gambling in Gaming Run
-      <input type="number" formControlName="limitB" min="1" max="1000">
-    </p>
-    <hr>
-    <p> 
-      Maximal game length:
-      <input type="number" formControlName="maxGameLength" min="1" max="1000000">
+        <hr>
+        <p>Player A:</p>
+        <mat-form-field appearance="fill" class="right-margin">
+          <mat-label>Player A Bet</mat-label>
+          <input matInput type="number" formControlName="betA" min="1" max="9999">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="long-label">
+          <mat-label>Limit for gambling in Gaming Run (Player A)</mat-label>
+          <input matInput type="number" formControlName="limitA" min="1" max="9999">
+        </mat-form-field>
+        <hr>
+        <p>Player B:</p>
+        <mat-form-field appearance="fill" class="right-margin">
+          <mat-label>Player B Bet</mat-label>
+          <input matInput type="number" formControlName="betB" min="1" max="9999">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="long-label">
+          <mat-label>Limit for gambling in Gaming Run (Player B)</mat-label>
+          <input matInput type="number" formControlName="limitB" min="1" max="9999">
+        </mat-form-field>
+        <hr>
+        <p>Game:</p>
+        <mat-form-field appearance="fill" class="right-margin">
+          <mat-label>Maximal game length</mat-label>
+          <input matInput type="number" formControlName="maxGameLength" min="1" max="9999">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="right-margin">
+          <mat-label>Number of games in Gaming Run</mat-label>
+          <input matInput type="number" formControlName="numberOfGames" min="1" max="99990">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="mid-label">
+          <mat-label>Progress report frequency</mat-label>
+          <input matInput type="number" formControlName="progressReportFrequency" min="1" max="9999">
+        </mat-form-field>
 
-      Number of games in Gaming Run:
-      <input type="number" formControlName="numberOfGames" min="1" max="1000000">
-    </p>
-    <p> 
-      Progress report frequency:
-      <input type="number" formControlName="progressReportFrequency" min="1" max="1000000">
-    </p> 
   </mat-expansion-panel>
 </mat-accordion>
     <hr>

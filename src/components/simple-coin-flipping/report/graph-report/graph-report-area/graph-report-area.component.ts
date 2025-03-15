@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartType, GoogleChartsModule } from 'angular-google-charts';
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { NotifierService } from '../../../../../services/progress-notifier';
@@ -19,7 +19,7 @@ export class GraphReportAreaComponent {
   
     optionsAreaChart = { title: 'Wallet Dynamic',
       vAxis: {title: 'Wallet balance'},
-      hAxis: {title: 'Coin flips'},
+      hAxis: {title: 'Gaminig run'},
       isStacked: true,
       series: {
         0:{color: 'blue', labelInLegend: "Wallet A"},
