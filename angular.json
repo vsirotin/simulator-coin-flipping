@@ -33,7 +33,14 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "3mb"
+              }
+            ]
           },
           "configurations": {
             "production": {
