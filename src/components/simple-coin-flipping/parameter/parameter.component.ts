@@ -39,7 +39,7 @@ export class ParameterComponent {
       limitB: [50, [Validators.required, Validators.min(1), Validators.max(1000)]],
       maxGameLength: [50, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       numberOfGames: [20, [Validators.required, Validators.min(1), Validators.max(1000000)]],
-      progressReportFrequency: [1, [Validators.required, Validators.min(1), Validators.max(1000000)]]
+      progressReportFrequency: [5, [Validators.required, Validators.min(1), Validators.max(1000000)]]
     });
     // Bind the reportProgress method to the instance
     this.reportProgress = this.reportProgress.bind(this);

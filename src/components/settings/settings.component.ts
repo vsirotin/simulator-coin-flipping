@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./settings.component.scss'],
   standalone: true
 })
-export class SettingsComponent {}
+export class SettingsComponent {
+  version = "1.0.1";
+  buildDate = "2025.03.17 15:24.03"
+}
