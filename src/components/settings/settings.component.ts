@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   standalone: true
 })
 export class SettingsComponent {
-  version = "1.0.1";
-  buildDate = "2025.03.17 15:24.03"
+  version = "1.0.2";
+  buildDate = "2025.03.21 09:20.09"
 }
