@@ -20,7 +20,7 @@ export class GraphReportColumnComponent {
   columnNames = ['steps', 'Wins A', 'Wins B'];
 
   chartOptions = {
-    title: 'Win Distribution',
+    title: 'Wins Distribution',
     hAxis: {
       title: 'Number of wins by coin flip'
     },

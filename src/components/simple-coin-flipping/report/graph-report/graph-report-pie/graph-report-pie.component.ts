@@ -22,8 +22,8 @@ export class GraphReportPieComponent {
   dataPieChart : any[] = [];
 
   optionsPieChart = {
-    title: 'Game run result overview',
-    colors: ['red', 'blue', 'gray'], is3D: true
+    title: 'Distribution of wins of the participants',
+    colors: ['blue', 'red', 'gray'], is3D: true
   };
 
  ngOnInit() {
