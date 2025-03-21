@@ -10,11 +10,19 @@
         <mat-form-field appearance="fill" class="right-margin">
           <mat-label>Player A Bet</mat-label>
           <input matInput type="number" formControlName="betA" min="1" max="9999">
+          
         </mat-form-field>
         <mat-form-field appearance="fill" class="long-label">
           <mat-label>Limit for gambling in Gaming Run (Player A)</mat-label>
           <input matInput type="number" formControlName="limitA" min="1" max="9999">
         </mat-form-field>
+        @if(parameterForm.get('betA')?.hasError('required')){<p class="error">Bet A is required</p>}
+        @if(parameterForm.get('betA')?.hasError('min')){<p class="error">Bet A must be at least 1</p>}
+        @if(parameterForm.get('betA')?.hasError('max')){<p class="error">Bet A must be at most 1000</p>}
+        @if(parameterForm.get('limitA')?.hasError('required')){<p class="error">Limit A is required</p>}
+        @if(parameterForm.get('limitA')?.hasError('min')){<p class="error">Limit A must be at least 1</p>}
+        @if(parameterForm.get('limitA')?.hasError('max')){<p class="error">Limit A must be at most 1000</p>}
+        @if(parameterForm.errors?.['limitLessThanBet'] == 'limitA'){<p class="error">Limit A must be greater than or equal to Bet A</p>}
         <hr>
         <p>Player B:</p>
         <mat-form-field appearance="fill" class="right-margin">
@@ -25,6 +33,13 @@
           <mat-label>Limit for gambling in Gaming Run (Player B)</mat-label>
           <input matInput type="number" formControlName="limitB" min="1" max="9999">
         </mat-form-field>
+        @if(parameterForm.get('betB')?.hasError('required')){<p class="error">Bet B is required</p>}
+        @if(parameterForm.get('betB')?.hasError('min')){<p class="error">Bet B must be at least 1</p>}
+        @if(parameterForm.get('betB')?.hasError('max')){<p class="error">Bet B must be at most 1000</p>}
+        @if(parameterForm.get('limitB')?.hasError('required')){<p class="error">Limit B is required</p>}
+        @if(parameterForm.get('limitB')?.hasError('min')){<p class="error">Limit B must be at least 1</p>}
+        @if(parameterForm.get('limitB')?.hasError('max')){<p class="error">Limit B must be at most 1000</p>}
+        @if(parameterForm.errors?.['limitLessThanBet'] == 'limitB'){<p class="error">Limit B must be greater than or equal to Bet B</p>}
         <hr>
         <p>Game:</p>
         <mat-form-field appearance="fill" class="right-margin mid-label">
@@ -39,7 +54,15 @@
           <mat-label>Progress report frequency</mat-label>
           <input matInput type="number" formControlName="progressReportFrequency" min="1" max="9999">
         </mat-form-field>
-
+        @if(parameterForm.get('maxGameLength')?.hasError('required')){<p class="error">Maximal game length is required</p>}
+        @if(parameterForm.get('maxGameLength')?.hasError('min')){<p class="error">Maximal game length must be at least 1</p>}
+        @if(parameterForm.get('maxGameLength')?.hasError('max')){<p class="error">Maximal game length must be at most 9999</p>}
+        @if(parameterForm.get('numberOfGames')?.hasError('required')){<p class="error">Number of games is required</p>}
+        @if(parameterForm.get('numberOfGames')?.hasError('min')){<p class="error">Number of games must be at least 1</p>}
+        @if(parameterForm.get('numberOfGames')?.hasError('max')){<p class="error">Number of games must be at most 99990</p>}
+        @if(parameterForm.get('progressReportFrequency')?.hasError('required')){<p class="error">Progress report frequency is required</p>}
+        @if(parameterForm.get('progressReportFrequency')?.hasError('min')){<p class="error">Progress report frequency must be at least 1</p>}
+        @if(parameterForm.get('progressReportFrequency')?.hasError('max')){<p class="error">Progress report frequency must be at most 9999</p>}
   </mat-expansion-panel>
 </mat-accordion>
     <hr>

@@ -9,6 +9,18 @@ import { CoinFiippingGameSerieOutput, CoinFlippingExperimentSerie, CoinFlippingG
 import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-flipping-game';
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { NotifierService } from '../../../services/progress-notifier';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+export class CustomValidators {
+  static limitGreaterThanOrEqualToBet(betKey: string, limitKey: string): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const bet = group.get(betKey)?.value;
+      const limit = group.get(limitKey)?.value;
+      return  limit >= bet ? null : { limitLessThanBet: limitKey };
+    };
+  }
+}
 
 @Component({
     standalone: true,
@@ -21,7 +33,8 @@ import { NotifierService } from '../../../services/progress-notifier';
         MatButtonModule,
         MatExpansionModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        CommonModule
     ]
 })
 export class ParameterComponent {
@@ -40,7 +53,13 @@ export class ParameterComponent {
       maxGameLength: [50, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       numberOfGames: [20, [Validators.required, Validators.min(1), Validators.max(1000000)]],
       progressReportFrequency: [5, [Validators.required, Validators.min(1), Validators.max(1000000)]]
+    }, {
+      validators: [
+        CustomValidators.limitGreaterThanOrEqualToBet('betA', 'limitA'),
+        CustomValidators.limitGreaterThanOrEqualToBet('betB', 'limitB')
+      ]
     });
+
     // Bind the reportProgress method to the instance
     this.reportProgress = this.reportProgress.bind(this);
     this.logger.log('ParameterComponent created');
