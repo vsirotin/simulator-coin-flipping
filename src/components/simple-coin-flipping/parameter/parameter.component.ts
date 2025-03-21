@@ -10,7 +10,7 @@ import { CoinFlippingGameInput } from '../../../classes/coin-flipping-game/coin-
 import { LoggerFactory } from '@vsirotin/log4ts';
 import { NotifierService } from '../../../services/progress-notifier';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 export class CustomValidators {
   static limitGreaterThanOrEqualToBet(betKey: string, limitKey: string): ValidatorFn {
@@ -33,8 +33,7 @@ export class CustomValidators {
         MatButtonModule,
         MatExpansionModule,
         MatFormFieldModule,
-        MatInputModule,
-        CommonModule
+        MatInputModule
     ]
 })
 export class ParameterComponent {
